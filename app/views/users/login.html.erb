@@ -1,0 +1,30 @@
+
+<% if @authn_user.blank? %>
+ <p>No user info</p>
+<% else %>
+  User = <pre> <%= @authn_user.inspect %> </pre>
+<% end %>
+
+<%= form_tag do %>
+<fieldset>
+ <legend>Login</legend>
+
+ <table>
+   <tr><td><label for="user_name">Username</label></td><td>
+    <%= text_field 'user', 'name' %></td></tr>
+
+   <tr><td><label for="user_password">Password</label></td><td>
+    <%= password_field 'user', 'password' %></td></tr>
+
+ </table>
+ 
+</fieldset>
+
+ <fieldset>
+   <button type="submit">Login</button>
+   <%= link_to 'Cancel', pipelines_path %>
+ </fieldset>
+
+
+<% end %>
+

@@ -1,0 +1,24 @@
+<h1>Delayed Job #<%= h(@djob.id) %>, <%= h(@djob.created_at) %></h1>
+
+<%= form_tag "/delayed_jobs/delete/#{@djob.id}", :method => :get do %>
+ <button type="submit" onclick="return confirm('Are you sure you want to delete Delayed Job <%= @djob.id %>?')" >Delete</button>
+<% end %>
+
+<%= link_to 'Cancel', '/delayed_jobs/' %> 
+
+<hr>
+
+
+ <table border="0">
+   <tr><td><label for="djob_id">Id:</label></td><td> <%= @djob.id %></td></tr>
+   <tr><td><label for="djob_priority">Priority:</label></td><td> <%= @djob.priority %></td></tr>
+   <tr><td><label for="djob_run_at">Run At:</label></td><td> <%= @djob.run_at %></td></tr>
+   <tr><td><label for="djob_handler">Handler:</label></td><td><pre> <%=raw CGI.escapeHTML(@djob.handler.inspect) %></pre></td></tr>
+   <tr><td><label for="djob_attempts">Attempts:</label></td><td> <%= @djob.attempts %></td></tr>
+   <tr><td><label for="djob_last_error">Last Error:</label></td><td><pre> <%=raw CGI.escapeHTML(@djob.last_error.inspect) %></pre></td></tr>
+   <tr><td><label for="djob_failed_at">Failed At:</label></td><td> <%= @djob.failed_at %></td></tr>
+   <tr><td><label for="djob_locked_by">Locked By:</label></td><td> <%= @djob.locked_by %></td></tr>
+   <tr><td><label for="djob_created_at">Created At:</label></td><td> <%= @djob.created_at %></td></tr>
+   <tr><td><label for="djob_updated_at">Updated At:</label></td><td> <%= @djob.updated_at %></td></tr>
+
+</table>

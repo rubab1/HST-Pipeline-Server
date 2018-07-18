@@ -1,0 +1,46 @@
+<% if @user_id.blank? %>
+ <p>Must specify a user </p>
+<% else %>
+
+  <script type="text/javascript" src="/javascripts/jquery.jstree.js"></script> 
+
+  <%= form_tag "/server_nodes/do_launch_instances_for_server/#{@user_id}", :method => :post do %>
+
+    <fieldset>
+    <legend>Launch New EC2 Instances </legend>
+   
+    <table>
+
+      <tr><td><label for="node_ami">Node Ami</label></td><td>
+        <select name="node_ami">
+        <%  @node_amis.each do |ami|  %>
+          <option value="<%= ami %>"> <%= ami %> </option>
+        <% end %>
+        </select>
+        </td></tr>
+
+      <tr><td><label for="node_instance_type">Node Instance Type</label></td><td>
+        <select name="node_instance_type">
+        <%  @node_instance_types.each do |config|  %>
+          <option value="<%= config.id %>"> <%= config.name %> </option>
+        <% end %>
+        </select>
+        </td></tr>
+
+      <tr id="pipeline_range_row" ><td>
+        <label for="pipeline_start">Pipelines (separate by comma)</label></td><td>
+        <input type="text" id="pipelines" name="pipelines" value="710" >
+      </td></tr>
+      
+    </table>
+    </fieldset>
+    <fieldset>
+       <button type="submit">Launch</button>
+       <%= link_to 'Cancel', "/server_nodes/launch_server/" %>
+    </fieldset>
+  <% end %>
+
+  <p>
+  <a href="https://aws.amazon.com/ec2/instance-types/" target="types">EC2 Instance Types</a> |
+  <a href="https://aws.amazon.com/ec2/pricing/" target="pricing">EC2 Instance Pricing</a>
+<% end %>

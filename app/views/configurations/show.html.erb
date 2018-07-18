@@ -1,0 +1,43 @@
+<h1>Configuration #<%= h(@configuration.id) %>, <%= h(@configuration.name) %><br/>
+  from Target #<%= h(@target.id) %> <%= h(@target.name) %> </h1>
+
+<%= form_tag target_configuration_path(@target,@configuration), :method => :delete do %>
+ <%= link_to 'Edit',  edit_target_configuration_path(@target, @configuration) %>
+ <%= link_to 'Configurations',  target_configurations_path(@target) %>
+ <button type="submit" onclick="return confirm('Are you sure you want to delete?')" >Delete</button>
+<% end %>
+
+ <table border="0">
+   <tr><td><label for="configuration_name">Name:</label></td><td>
+       <%= @configuration.name %></td></tr>
+
+   <tr><td><label for="configuration_description">Description:</label></td><td>
+      <%= @configuration.description %></td></tr>
+
+   <tr><td><label for="configuration_relativepath">Path:</label></td><td>
+      <%= @configuration.relativepath %></td></tr>
+
+
+   <tr><td><label for="configuration_parameters">Parameters:</label></td><td>
+       <table>
+           <tr>
+             <th>Name</th>
+             <th>Value</th>
+             <th>Group</th>
+             <th>Type</th>
+           </tr>
+         <% @configuration.parameters.each do |p| %>
+           <tr>
+             <td><%= p.id %> <%= p.name %></td>
+             <td><%= p.value %></td>
+             <td><%= p.group %></td>
+             <td><%= p.ptype %></td>
+           </tr>
+         <% end %>
+       </table>
+     </td></tr>
+
+</table>
+
+CONF: <%=  CGI.escapeHTML(@configuration.inspect) %>
+PARAMS: <%=  CGI.escapeHTML(@configuration.parameters.inspect) %>

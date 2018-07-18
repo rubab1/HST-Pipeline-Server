@@ -1,0 +1,43 @@
+<h1>Task #<%= h(@task.id) %>, <%= h(@task.name) %><br/>
+  from Pipeline #<%= h(@pipeline.id) %> <%= h(@pipeline.name) %> </h1>
+
+<%= form_tag pipeline_task_path(@pipeline,@task), :method => :delete do %>
+ <%= link_to 'Edit',  edit_pipeline_task_path(@pipeline, @task) %>
+ <%= link_to 'New Mask',  new_task_mask_path(@task) %>
+ <button type="submit" onclick="return confirm('Are you sure you want to delete?')" >Delete</button>
+<% end %>
+
+ <table border="0">
+   <tr><td><label for="task_pipeline">Pipeline:</label></td><td>
+       <%= link_to "#{@pipeline.id}",  pipeline_path(@pipeline) %></td></tr>
+
+   <tr><td><label for="task_name">Name:</label></td><td>
+       <%= @task.name %></td></tr>
+
+   <tr><td><label for="task_flags">Flags:</label></td><td>
+       <%= @task.flags %></td></tr>
+
+   <tr><td><label for="task_jobs">Jobs:</label></td><td>
+      <table>
+        <% @task.jobs.each do |j| %>
+        <tr><td><%= link_to j.id, job_path(j.id) %> <%= j.state %> </td></tr>
+        <% end %>
+      </table>
+    </td></tr>
+
+   <tr><td><label for="task_masks">Masks:</label></td><td>
+      <table>
+        <% @task.masks.each do |m| %>
+        <tr><td><%= link_to m.id, task_mask_path(@task,m) %></td>
+            <td><%= m.source %> </td>
+            <td><%= m.name %>   </td>
+            <td><%= m.value %>  </td>
+            <td><%= m.optionflags %></td>
+        </tr>
+        <% end %>
+      </table>
+    </td></tr>
+
+
+ </table>
+ 

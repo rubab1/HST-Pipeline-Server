@@ -1,0 +1,23 @@
+<h1>Listing instance_types</h1>
+
+<table>
+  <tr>
+    <th>Name</th>
+    <th></th>
+    <th></th>
+    <th></th>
+  </tr>
+
+<% @instance_types.each do |instance_type| %>
+  <tr>
+    <td><%= instance_type.name %></td>
+    <td><%= link_to 'Show', instance_type %></td>
+    <td><%= link_to 'Edit', edit_instance_type_path(instance_type) %></td>
+    <td><%= link_to 'Destroy', instance_type, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  </tr>
+<% end %>
+</table>
+
+<br />
+
+<%= link_to 'New Instance type', new_instance_type_path %>

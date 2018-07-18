@@ -1,0 +1,10 @@
+<h1>Configuration #<%= h(@configuration.id) %>, <%= h(@configuration.name) %>, from Target #<%= h(@target.id) %> <%= h(@target.name) %> </h1>
+
+<%= form_tag target_configuration_path(@target, @configuration), :method => :put do %>
+ <%= render :partial => 'configurations/form' %>
+
+ <fieldset>
+   <button type="submit">Update</button>
+   <%= link_to 'Cancel', target_configurations_path(@target) %>
+ </fieldset>
+<% end %>

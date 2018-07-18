@@ -1,0 +1,41 @@
+<% if @task.nil? %>
+  <h1>Cloud Jobs
+<% else %>
+  <h1>Cloud Jobs for Task  #<%= h(@task.id) %>, <%= h(@task.name) %>
+<% end %>
+
+</h1>
+<hr />
+<% if !@task.nil? %>
+  <%= link_to 'New job', new_task_job_path %>
+  <%= link_to 'Tasks', pipeline_tasks_path(@task.pipeline) %>
+<% end %>
+
+<% if @jobs.empty? %>
+ <p>There are no jobs</p>
+<% else %>
+ <table border="0">
+   <tr>
+     <td>id</td>
+     <td>Configuration</td>
+     <td>State</td>
+     </td>
+   </tr>
+ <% @jobs.each do |job| %>
+
+   <%  configname = (defined? job.configuration.name) ?  job.configuration.name : ""  %>
+   <%  targname = (defined? job.configuration.Target.name) ?  job.configuration.Target.name : ""  %>
+   <tr>
+     <td style="vertical-align:middle"><%= link_to job.id, job_path(job.id) %></td>
+     <td style="vertical-align:middle"><%= targname %>: <%= configname %></td>
+     <td style="vertical-align:middle"><%= job.state %></td>
+     <td style="vertical-align:middle"><br />
+         <%= form_tag task_job_path(@task,job), :method => :delete do %>
+         <%= link_to 'Edit',   edit_task_job_path(@task, job) %>
+         <button type="submit" onclick="return confirm('Are you sure you want to delete?')" >Delete</button>
+         <% end %>
+     </td>
+   </tr>
+ <% end %>
+ </table>
+<% end %>

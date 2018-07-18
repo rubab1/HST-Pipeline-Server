@@ -1,0 +1,28 @@
+
+  <%= form_tag :action => 'create' do %>
+  <fieldset>
+  <legend>New  User Info</legend>
+  
+  <table>
+    <tr><td><label for="user_name">Name</label></td><td>
+      <%= text_field 'user', 'name' %></td></tr>
+    <tr><td><label for="user_email">Email</label></td><td>
+      <%= text_field 'user', 'email' %></td></tr>
+      <%= hidden_field 'user', 'guid' %></td></tr>
+  
+    <tr><td><label for="user_password">Password</label></td><td>
+      <%= password_field 'user', 'password' %></td></tr>
+    <tr><td><label for="user_is_admin">Is Admin</label></td><td>
+    <input type="checkbox" id="user_is_admin" name="user[is_admin]"  >
+    </td></tr>
+  
+  </table>
+  
+  </fieldset>
+  
+  <fieldset>
+    <button type="submit">Create</button>
+    <%= link_to 'Cancel', '/users/' %>
+  </fieldset>
+  <% end %>
+

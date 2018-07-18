@@ -1,0 +1,10 @@
+<h1>Task #<%= h(@task.id) %>, <%= h(@task.name) %>, from Pipeline #<%= h(@pipeline.id) %> <%= h(@pipeline.name) %> </h1>
+
+<%= form_tag pipeline_task_path(@pipeline, @task), :method => :put do %>
+ <%= render :partial => 'tasks/form' %>
+
+ <fieldset>
+   <button type="submit">Update</button>
+   <%= link_to 'Cancel', pipeline_tasks_path(@pipeline) %>
+ </fieldset>
+<% end %>

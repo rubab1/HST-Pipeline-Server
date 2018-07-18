@@ -1,0 +1,92 @@
+<% if @user_id.blank? %>
+ <p>Must specify a user </p>
+<% else %>
+
+  <script type="text/javascript" src="/javascripts/jquery.jstree.js"></script> 
+
+  <%= form_tag "/ec2nodes/do_launch_instances_for_user/#{@user_id}", :method => :post do %>
+
+    <fieldset>
+    <legend>Launch New EC2 Instances </legend>
+   
+    <table>
+      <!--<tr><td><label for="node_type">Node Type</label></td><td>
+        <select name="node_type_id">
+        <% if false %>
+        <%= @node_types.each do |node|  %>
+          <option value="<%= node.id %>"> <%= node.ec2_ami_id.inspect %> | <%= node.name %> </option>
+        <% end %>
+        <% end %>
+        </select>
+        </td></tr>-->
+
+      <tr><td><label for="node_ami">Node Ami</label></td><td>
+        <select name="node_ami">
+        <%  @node_amis.each do |ami|  %>
+          <option value="<%= ami %>"> <%= ami %> </option>
+        <% end %>
+        </select>
+        </td></tr>
+
+      <tr><td><label for="node_instance_type">Node Instance Type</label></td><td>
+        <select name="node_instance_type">
+        <%  @node_instance_types.each do |config|  %>
+          <option value="<%= config %>"> <%= config %> </option>
+        <% end %>
+        </select>
+        </td></tr>
+
+      <tr><td><label for="pipeline_id">Pipeline ID</label></td><td>
+        <select name="pipeline_id">
+            <option value="0">Free Pool</option>
+            <%  @pipeline_ids_for_user.each do |p| %>
+                <option value="<%= p.id %>"> <%= p.id %> </option>
+            <% end %>
+        </select>
+        </td></tr>
+
+      <tr><td><label for="number_of_instances">No. Instances</label></td><td>
+        <select name="number_of_instances">
+        <%  (1..10).each do |nnn|  %>
+          <option value="<%= nnn %>"> <%= nnn %> </option>
+        <% end %>
+        </select>
+        </td></tr>
+
+      <tr><td><label for="price_model">Price Model</label></td><td>
+        <select id="price_model" name="price_model" onchange="doPriceModelChange();">
+          <option value="demand" > On Demand </option>
+          <option value="spot" > Spot Market </option>
+          <option value="cluster" > Cluster </option>
+          <option value="dedicated" > Dedicated </option>
+        </select>
+        </td></tr>
+
+      <tr style="display: none" id="spot_price_row" ><td><label for="spot_price">Spot Price</label></td><td>
+        <input type="text" id="spot_price" name="spot_price" value="0.11" >
+        </td></tr>
+
+
+    </table>
+    </fieldset>
+    <script type="text/javascript" charset="utf-8" >
+  doPriceModelChange = function() {
+    var priceModel = document.getElementById("price_model").value;
+    // alert("GOT : "+priceModel)
+    if ( priceModel == "spot" ) {
+      $('#spot_price_row').show();
+    } else {
+      $('#spot_price_row').hide();
+    }
+  }
+    </script>
+    <fieldset>
+       <button type="submit">Launch</button>
+       <%= link_to 'Cancel', "/ec2nodes/get_users/" %>
+    </fieldset>
+  <% end %>
+
+  <p>
+  <a href="https://aws.amazon.com/ec2/instance-types/" target="types">EC2 Instance Types</a> |
+  <a href="https://aws.amazon.com/ec2/pricing/" target="pricing">EC2 Instance Pricing</a>
+<% end %>

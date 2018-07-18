@@ -1,0 +1,10 @@
+sudo cp unicorn /etc/init.d/unicorn
+
+sudo cp nginx_conf /etc/nginx/nginx.conf
+
+sudo cp pipeline2 /etc/nginx/sites-available/pipeline2
+
+sudo ln -s /etc/nginx/sites-available/pipeline2 /etc/nginx/sites-enabled/pipeline2
+
+sudo rm /etc/nginx/sites-enabled/default
+

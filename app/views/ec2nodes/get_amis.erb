@@ -1,0 +1,20 @@
+<% if @amis.empty? %>
+ <p>There are no AMIs ???</p>
+<% else %>
+ <table border=1>
+  <thead>
+    <tr>
+    <th>AMI ID </th>
+    <th>Name </th>
+    <th>Description </th>
+    </tr>
+  </thead>
+ <% @amis.each do |ami| %>
+   <tr>
+		<td><%= ami.image_id %></td>
+		<td><%= ami.name %></td>
+		<td><%= ami.description %></td> 
+   </tr>
+ <% end %>
+ </table>
+<% end %>

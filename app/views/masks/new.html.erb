@@ -1,0 +1,11 @@
+
+<h1>New Mask</h1>
+
+<%= form_tag task_masks_path do %>
+ <%= render :partial => 'masks/form' %>
+
+ <fieldset>
+   <button type="submit">Save</button>
+   <%= link_to 'Cancel', task_masks_path %>
+ </fieldset>
+<% end %>

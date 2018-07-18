@@ -1,0 +1,13 @@
+<h1>Masks#edit</h1>
+<p>Find me in app/views/masks/edit.html.erb</p>
+
+<h1>Mask #<%= h(@mask.id) %> from Task <%= h(@task.id) %> <%= h(@task.name) %> </h1>
+
+<%= form_tag task_mask_path(@task, @mask), :method => :put do %>
+ <%= render :partial => 'masks/form' %>
+
+ <fieldset>
+   <button type="submit">Update</button>
+   <%= link_to 'Cancel', task_masks_path(@task) %>
+ </fieldset>
+<% end %>

@@ -1,0 +1,86 @@
+<% if @status.blank? %>
+ <p><%= @user.name %> ( user_id = <%= @user_id %> ) has no EC2 nodes.</p>
+<% else %>
+
+<script type="text/javascript" >
+
+$(document).ready(function() 
+    { 
+    $("#user_status").tablesorter(); 
+    } 
+); 
+
+</script> 
+
+<div id="node_debug_data"></div>
+
+ <table border=1 id='user_status' class='tablesorter'>
+   <thead>
+   <tr>
+    <th>UserID </th>
+    <th>Pipelines</th>
+    <th>InstanceID </th>
+    <th>EC2 Status </th>
+    <th>Type </th>
+    <th>AMI ID </th>
+    <th>PublicIP </th>
+    <th>LaunchTime </th>
+    <th>Terminate </th>
+    <th>Refresh </th>
+    <th>Info </th>
+   </tr>
+   </thead>
+ <% @status.each do |res| %>
+  <% res.instances.each do |inst| %>
+  <% if is_server_node(inst) %>
+   <tr>
+     <td><%= @user.name %> <%= @user.id %></td>
+     <% an = @instance_pipeline_map[inst.instance_id] %>
+     <% @pipes = "" %>
+     <% if an %>
+     <%   Pipeline.where(:server_node_id => an.id).to_a.each do |ap| %>
+     <%     @pipes += "#{ap.id}," %>
+     <%   end %>
+     <% end %>
+     <td><%= @pipes[0...-1] %></td>
+     <td><%= inst.instance_id %></td>
+     <td><%= inst.state.name %> ( <%= inst.state.code %> ) </td>
+     <td><%= inst.instance_type %></td>
+     <td><%= inst.image_id %></td>
+     <td><%= (inst.public_ip_address.nil?) ? '&nbsp;' : inst.public_ip_address %></td>
+     <td><%= inst.launch_time %></td>
+     <td>
+     <% if ec2_is_restricted_instance_id(inst.instance_id)  %>
+        <b>Infra</b>
+      <% elsif (inst.state.name != "running" && inst.state.name != "stopped")%>
+        <b>Not In Terminateable State</b>
+      <% elsif (inst.public_ip_address == @creds['server_address'].gsub('http://','').gsub(':3000',''))%>
+        <b>Server Node, Not Terminable</b>
+      <% else %>
+        <% if @authn_user.is_admin || @authn_user.id == @user_id.to_i %>
+          <%= form_tag "/ec2nodes/do_terminate_instances_for_user/#{@user_id}?ec2_instance_id=#{inst.instance_id}", :method => :post do %> 
+            <input type="hidden" name="ec2_instance_id" value="<%= inst.instance_id %>" >
+            <button type="submit" onclick="return confirm('Are you sure you want to TERMINATE instance?')" >Terminate</button>
+            <% end %>
+          <% else %>
+            <b>NA</b>
+         <% end %>
+      <% end %>
+     </td>
+     <td>
+      <% if (an == nil) %>
+        <b>NA</b>
+      <% else %>
+        <%= form_tag "/nodes/refresh/#{an.id}", :method => :get do %>
+          <button type="submit" onclick="return confirm('Are you sure you want to Refesh Node <%= an.id %>?')" >Refresh</button>
+        <% end %>
+      <% end %>
+
+     </td>
+     <td><div class="hidden" id="<%= inst.instance_id %>"><%= inst.inspect %></div><a href="#" onclick="$('#node_debug_data').html($('#<%= inst.instance_id %>').html()); return false;">Click</a></td>
+   </tr>
+  <% end %>
+  <% end %>
+ <% end %>
+ </table>
+<% end %>

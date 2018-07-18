@@ -1,0 +1,80 @@
+<% if @authn_user.blank? %>
+ <p>No user info</p>
+ <%= link_to 'Login', '/users/login/' %> 
+<% else %>
+  <h2>Welcome <%= @authn_user.name %> </h2>
+<%= link_to 'Logout', '/users/logout/' %> |  <%= link_to('Your Ec2Nodes', "/ec2nodes/get_status_for_user/#{@authn_user.id}") %>
+<p>
+  <%= form_tag :action => 'do_update' do %>
+  <input type="hidden" name="user[guid]" value="<%= @authn_user.guid %>" >
+  <fieldset>
+  <legend>Update Your User Info</legend>
+  
+  <table>
+    <tr><td><label for="user_email">Email</label></td><td>
+      <input type="text" name="user[email]" value="<%= @authn_user.email %>" ></td></tr>
+  
+    <tr><td><label for="user_password">Password</label></td><td>
+      <%= password_field 'user', 'password' %></td></tr>
+  
+  </table>
+  
+  </fieldset>
+  
+  <fieldset>
+    <button type="submit">Update</button>
+    <%= link_to 'Cancel', '/users/' %>
+  </fieldset>
+  <% end %>
+
+  <hr>
+  <% if @authn_user.is_admin %>
+    <%= link_to 'Create New User', '/users/new/' %>
+  <% end %>
+
+  <% if !@users.nil? %>
+
+    <script type="text/javascript" >
+    
+    $(document).ready(function() 
+        { 
+        $("#user_info").tablesorter(); 
+        } 
+    ); 
+    
+    </script>
+    
+  <table border=1 id='user_info' class='tablesorter'>
+    <thead>
+    <tr>
+    <th>Action </th>
+    <th>User Name </th>
+    <th>Is Admin </th>
+    <th>Email </th>
+    <th>Has EC2 Creds </th>
+    </tr>
+    </thead>
+    <% @users.each do |uuu| %>
+    <tr>
+    <td><%= link_to 'Edit', "/users/update/#{uuu.id}" %> </td>
+    <td><%= uuu.name %> </td>
+    <td><%= (uuu.is_admin) ? '<b>Admin</b>' : '&nbsp;' %> </td>
+    <td><%= uuu.email %> </td>
+    <td><%
+    has_ec2_creds = '<b>NO</b>';
+    begin
+      creds = ec2_get_crypto_assets_for_user uuu.name
+      has_ec2_creds = link_to('Yes', "/ec2nodes/get_status_for_user/#{uuu.id}")
+    rescue Exception => e
+      # has_ec2_creds = e.inspect
+      has_ec2_creds = '<b>NO</b>';
+    end
+    %>
+    <%= has_ec2_creds %> </td>
+    </tr>
+    <% end %>
+    </table>
+  <% end %>
+<% end %>
+<p>
+

@@ -1,0 +1,34 @@
+<h1>Processing Configurations for Target <%= h(@target.name) %>,
+  Pipeline <%= h(@target.pipeline.name) %> </h1>
+<hr />
+<%= link_to 'New configuration', new_target_configuration_path %>
+<%= link_to 'All Targets', pipeline_targets_path(@target.pipeline) %>
+
+<% if @configurations.empty? %>
+ <p>There are no configurations</p>
+<% else %>
+ <table border="0">
+   <tr>
+     <td>id</td>
+     <td>Name</td>
+     <td>Description</td>
+     <td>Path</td>
+     <td>
+     </td>
+   </tr>
+ <% @configurations.each do |configuration| %>
+   <tr>
+     <td style="vertical-align:middle"><%= configuration.id %></td>
+     <td style="vertical-align:middle"><%= link_to h(configuration.name), target_configuration_path(@target, configuration) %></td>
+     <td style="vertical-align:middle"><%= configuration.description %></td>
+     <td style="vertical-align:middle"><%= configuration.relativepath %></td>
+    <td style="vertical-align:middle"><br />
+         <%= form_tag target_configuration_path(@target,configuration), :method => :delete do %>
+        <%= link_to 'Edit',   edit_target_configuration_path(@target, configuration) %>
+         <button type="submit" onclick="return confirm('Are you sure you want to delete?')" >Delete</button>
+         <% end %>
+     </td>
+   </tr>
+ <% end %>
+ </table>
+<% end %>

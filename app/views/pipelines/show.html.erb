@@ -1,0 +1,116 @@
+<h1>Pipeline #<%= h(@pipeline.id) %> <%= h(@pipeline.name) %> </h1>
+
+<%= link_to 'Pipelines',  pipelines_path %><br/>
+<%= link_to 'Edit',  edit_pipeline_path(@pipeline) %> |
+<%= link_to 'New task', new_pipeline_task_path(@pipeline) %> |
+<%= link_to 'New target', new_pipeline_target_path(@pipeline) %> |
+<%= form_tag pipeline_path(@pipeline), :method => :delete do %>
+ <button type="submit" onclick="return confirm('Are you sure you want to delete?')" >Delete</button>
+<% end %>
+<%= form_tag "/pipelines/refresh/#{@pipeline.id}", :method => :get do %>
+ <button type="submit" onclick="return confirm('Are you sure you want to Refesh Pipeline <%= @pipeline.id %>?')" >Refresh</button>
+<% end %>
+<%= form_tag "/pipelines/void_new_jobs/#{@pipeline.id}", :method => :get do %>
+ <button type="submit" onclick="return confirm('Are you sure you want to Void all New Jobs for Pipeline <%= @pipeline.id %>?')" >Void New Jobs</button>
+<% end %>
+
+
+ <table border="1">
+   <tr><td><label for="pipeline_user_id">User</label></td><td>
+    <%= @pipeline.user_id %>
+    </td></tr>
+   <tr><td><label for="pipeline_name">Name</label></td><td>
+    <%= @pipeline.name %></td></tr>
+   <tr><td><label for="pipeline_name">State</label></td><td>
+    <%= @pipeline_state.name %></td></tr>
+
+   <tr><td><label for="pipeline_description">Description</label></td><td>
+    <%= @pipeline.description %></td></tr>
+
+    <tr><td><label for="pipeline_root">Pipeline Root</label></td><td>
+    <%= @pipeline.pipe_root %></td></tr>
+
+    <tr><td><label for="pipeline_data_root">Data Root</label></td><td>
+    <%= @pipeline.data_root %></td></tr>
+
+    <tr><td><label for="pipeline_software_root">Software Root</label></td><td>
+    <%= @pipeline.software_root %></td></tr>
+
+    <tr><td><label for="pipeline_configuration_root">Configuration Root</label></td><td>
+    <%= @pipeline.configuration_root %></td></tr>
+
+    <tr><td><label for="pipeline_container_root">Container Root</label></td><td>
+    <%= @pipeline.container_root %></td></tr>
+
+    <tr><td><label for="pipeline_tasks">Tasks:</label></td><td>
+      <table>
+        <% @pipeline.tasks.each do |t| %>
+          <tr><td><%= link_to t.id, pipeline_task_path(@pipeline, t) %> <%= t.name %></td></tr>
+        <% end %>
+      </table>
+    </td></tr>
+
+    <tr><td><label for="pipeline_targets">Targets:</label></td><td>
+      <table>
+        <% @pipeline.targets.each do |t| %>
+          <tr><td><%= link_to t.id, pipeline_target_path(@pipeline, t) %> <%= t.name %></td></tr>
+        <% end %>
+      </table>
+    </td></tr>
+
+    <tr><td><label for="pipeline_nodes">Nodes:</label></td><td>
+      <table>
+        <% @pipeline.nodes.each do |n| %>
+          <tr><td>
+          <%= link_to n.id, pipeline_node_path(@pipeline, n) %> <%= n.name %>
+          <% if (n.is_updateable) %>
+            <%= form_tag "/nodes/refresh/#{n.id}", :method => :get do %>
+              <button type="submit" onclick="return confirm('Are you sure you want to Refesh Node <%= n.id %>?')" >Refresh</button>
+            <% end %>
+          <% end %>
+          </td></tr>
+        <% end %>
+      </table>
+    </td></tr>
+
+    <tr><td><label for="pipeline_tree">Tree:</label><%= sanitize @pipeline_tree_buttons %></td><td>
+			<div id="pipeline_tree" ><%= raw @pipeline_tree_tree %></div>
+    </td></tr>
+
+
+    <tr><td><label for="pipeline_tree">Details:</label></td><td>
+      <div id="pipeline_item_details_link"></div>
+      <p>
+      <div id="pipeline_item_details_text"></div>
+    </td></tr>
+
+ </table>
+
+<script type="text/javascript" >
+  function showDetails(obj_type, obj_id, obj_data) {
+    // alert("Clicked on "+obj_type+" "+obj_id);
+    details_link='';
+    if(obj_type == 'node') {
+      details_link='<a href=\"/nodes/'+obj_id+'/?pipeline_id='+<%= @pipeline.id %>+'"> Visit '+obj_type+' '+obj_id+'</a>';
+    } else if(obj_type == 'task') {
+      details_link='<a href=\"/tasks/'+obj_id+'/?pipeline_id='+<%= @pipeline.id %>+'"> Visit '+obj_type+' '+obj_id+'</a>';
+    } else if(obj_type == 'target') {
+      details_link='<a href=\"/targets/'+obj_id+'/?pipeline_id='+<%= @pipeline.id %>+'"> Visit '+obj_type+' '+obj_id+'</a>';
+    } else if(obj_type == 'job') {
+      details_link='<a href=\"/jobs/'+obj_id+'/?pipeline_id='+<%= @pipeline.id %>+'"> Visit '+obj_type+' '+obj_id+'</a>';
+    } else if(obj_type == 'event') {
+      details_link='<a href=\"/events/'+obj_id+'/?pipeline_id='+<%= @pipeline.id %>+'"> Visit '+obj_type+' '+obj_id+'</a>';
+    } else {
+      details_link='NA';
+    }
+    document.getElementById("pipeline_item_details_link").innerHTML=details_link;
+    document.getElementById("pipeline_item_details_text").innerHTML=obj_data;
+    return false;
+  }
+  <%= sanitize @pipeline_tree_initial_actions %>
+</script>
+
+
+
+
+<iframe src="/ec2nodes/get_status_for_user/<%= @pipeline.user_id %>?mode=iframe" width="100%" height="100%" scrolling="yes" frameborder="1" >EC2 Nodes Here</iframe>

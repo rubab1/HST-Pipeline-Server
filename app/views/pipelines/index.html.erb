@@ -1,0 +1,79 @@
+<h2>Pipelines</h2>
+<%= link_to 'New pipeline', new_pipeline_path %>
+<hr />
+<% if @pipelines.blank? %>
+ <p>There are no pipelines</p>
+<% else %>
+    <script type="text/javascript" >
+    
+    $(document).ready(function() 
+        { 
+        $("#pipeline_info").tablesorter(); 
+        } 
+    ); 
+
+    $.fn.toggleCheckbox = function() {
+      this.attr('checked',!this.attr('checked'));
+      // $(this).change();  // force ui to notice change in state ... 
+    }
+
+    toggle_pipeline_hold_states = function() {
+      $(".pipeline_hold_ids").each(function() { $(this).toggleCheckbox()});
+      return false;
+    }
+    toggle_pipeline_ready_states = function() {
+      $(".pipeline_ready_ids").each(function() { $(this).toggleCheckbox()});
+      return false;
+    }
+        
+    </script>
+ 
+  <form action="/pipelines/update_statuses" method="POST" >
+  <a href="#" onclick="toggle_pipeline_hold_states();" >Toggle Hold State Button</a> |
+  <a href="#" onclick="toggle_pipeline_ready_states();" >Toggle Ready State Button</a> |
+  <input type="submit" value="Update State" name="pipeline_update_state">
+  <p>
+  <table border=1 id='pipeline_info' class='tablesorter'>
+    <thead>
+    <tr>
+    <th>User </th>
+    <th>ID </th>
+    <th>Name </th>
+    <th>State </th>
+    <th>Data Root </th>
+    <th>Refresh </th>
+    </tr>
+    </thead>
+
+<% old_user = nil; %>
+<% old_user_id = nil; %>
+ <% @pipelines.each do |pipeline| %>
+     <% 
+     if (pipeline.user_id != old_user_id)
+      old_user = User.find_by_id(pipeline.user_id)
+      old_user_id = old_user.id rescue next
+     end
+     next if old_user.nil?
+     %>
+   <tr>
+     <td>
+     <%= link_to h(old_user.name), "/ec2nodes/get_status_for_user/#{old_user_id}" %></td>
+     <td><%= link_to h(pipeline.id), pipeline_path(pipeline)+'?'+{ :showTree => 1 }.to_query %></td>
+     <td><%= link_to h(pipeline.name), pipeline_path(pipeline)+'?'+{ :showTree => 1 }.to_query %></td>
+     <td>
+      <b><%= @pipeline_states[pipeline.state_id] %> </b>
+      <% if (pipeline.state_id == @pipeline_state_hold ) %>
+       <input type="checkbox" name="pipeline_ready_ids[]" value="<%= pipeline.id %>"class="pipeline_ready_ids"> =&gt; Ready
+      <% elsif (pipeline.state_id == @pipeline_state_ready ) %>
+       <input type="checkbox" name="pipeline_hold_ids[]" value="<%= pipeline.id %>"class="pipeline_hold_ids"> =&gt; Hold
+      <% end %>
+    </td>
+     <td><%= pipeline.data_root %></td>
+     <td>
+        <a href="/pipelines/refresh/<%= pipeline.id %>" onclick="return confirm('Are you sure you want to Refesh Pipeline <%= pipeline.id %>?')" >Refresh</a>
+     </td>
+   </tr>
+ <% end %>
+ </table>
+  </form >
+<% end %>

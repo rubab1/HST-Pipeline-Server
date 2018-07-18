@@ -1,0 +1,10 @@
+<h1>Target #<%= h(@target.id) %>, <%= h(@target.name) %>, from Pipeline #<%= h(@pipeline.id) %> <%= h(@pipeline.name) %> </h1>
+
+<%= form_tag pipeline_target_path(@pipeline, @target), :method => :put do %>
+ <%= render :partial => 'targets/form' %>
+
+ <fieldset>
+   <button type="submit">Update</button>
+   <%= link_to 'Cancel', pipeline_targets_path(@pipeline) %>
+ </fieldset>
+<% end %>

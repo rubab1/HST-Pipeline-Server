@@ -1,0 +1,39 @@
+<html>
+<head>
+<title>
+<%= @title %>
+</title>
+<%= stylesheet_link_tag :astro %>
+<script type="text/javascript" src="/javascripts/jquery-1.4.2.min.js"></script> 
+<script type="text/javascript" src="/javascripts/jquery.tablesorter.min.js"></script> 
+<script type="text/javascript" src="/javascripts/jquery.jstree.js"></script> 
+</head>
+<body>
+<h1>ANGST Cloud </h1>
+<%= link_to 'Pipelines', pipelines_path %> |
+<%= link_to 'Users', '/users/' %> |
+<%= link_to 'Nodes', '/nodes/' %> |
+<%= link_to 'Jobs', '/jobs/' %> |
+<%= link_to 'EC2 Info', '/ec2nodes/' %> | 
+<%= (@authn_user.nil?) ? '' : link_to("Your EC2 Nodes" , "/ec2nodes/get_status_for_user/#{@authn_user.id}") %> |
+<%= (@authn_user.nil?) ? '' : link_to("Your Server Nodes" , "/server_nodes/get_status_for_server/#{@authn_user.id}") %> |
+<%= (@authn_user.nil?) ? '' : link_to("Launch Server Nodes" , "/server_nodes/launch_server/#{@authn_user.id}") %> |
+<%= (@authn_user.nil?) ? '' : link_to("Delayed Jobs" , "/delayed_jobs/") %> |
+<%= (@authn_user.nil?) ? '' : link_to("Logs" , "/logs/show/rpipeline") %> 
+<hr />
+
+<% if !flash[:error].blank? %>
+  <div class='error'><%= CGI.escapeHTML flash[:error] %> </div>
+<% end %>
+<% if !flash[:notice].blank? %>
+  <div class='notice'><%= CGI.escapeHTML flash[:notice] %> </div>
+<% end %>
+<% flash.discard %>
+
+<div class='content'>
+<%= yield %>
+</div>
+
+<div class='footer'> <%= @footer %> </div>
+</body>
+</html>

@@ -1,0 +1,44 @@
+<h1>New Data Product</h1>
+
+<%= form_tag target_configuration_data_products_path(@t, @c), :method => :post do %>
+
+  <fieldset>
+    <legend><%= @t.name %>, <%=@c.name %> </legend>
+
+    <table>
+      <tr>
+        <td><label for="relativepath">Relative path</label></td><td><%= text_field 'data_product', 'relativepath' %></td>
+      </tr><tr>
+        <td><label for="filename">File name </label></td><td><%= text_field 'data_product', 'filename' %></td>
+      </tr><tr>
+        <td><label for="data_type">Type (image|table|datafile|other) </label></td><td><%= text_field 'data_product', 'data_type' %></td>
+      </tr><tr>
+        <td><label for="subtype"> Subtype (science|drizzle) </label></td><td><%= text_field 'data_product', 'subtype' %></td>
+      </tr><tr>
+        <td><label for="group">Group(raw|prod|log) </label></td><td><%= text_field 'data_product', 'group' %></td>
+      </tr><tr>
+        <td><label for="filtername"> Filter name (e.g. F435W) </label></td><td><%= text_field 'data_product', 'filtername' %></td>
+      </tr><tr>
+        <td><label for="source"> Source (a Task name)</label></td><td><%= text_field 'data_product', 'source' %></td>
+      </tr><tr>
+        <td><label for="ra">RA </label></td><td><%= text_field 'data_product', 'ra' %></td>
+      </tr><tr>
+        <td><label for="dec">DEC </label></td><td><%= text_field 'data_product', 'dec' %></td>
+      </tr><tr>
+        <td><label for="pointing_angle">PA </label></td><td><%= text_field 'data_product', 'pointing_angle' %></td>
+      </tr><tr>
+        <td><label for="s3bucket">Bucket </label></td><td><%= text_field 'data_product', 's3bucket' %></td>
+      </tr><tr>
+        <td><label for="s3objectid">S3ObjId </label></td><td><%= text_field 'data_product', 's3objectid' %></td>
+      </tr><tr>
+        <td><label for="s3region">Region </label></td><td><%= text_field 'data_product', 's3region' %></td>
+      </tr>
+      <tr><td>   <button type="submit">Save</button></td>
+        <td>   <%= link_to 'Cancel', target_path(@t) %></td>
+        <td></td>
+        <td></td>
+      </tr>
+    </table>
+  </fieldset>
+
+<% end %>

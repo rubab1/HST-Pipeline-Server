@@ -1,0 +1,39 @@
+<%#
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+%>
+
+<fieldset>
+ <legend>Pipeline form</legend>
+
+ <table>
+   <tr><td><label for="pipeline_name">Name</label></td><td>
+    <%= hidden_field 'pipeline', 'user_id' %>
+    <%= text_field 'pipeline', 'name' %></td></tr>
+
+
+   <tr><td><label >State</label></td><td>
+    <select name="state_id">
+    <%  @states.each do |state| %>
+        <option value="<%= state.id %>" <%= (state.id == @pipeline.state_id) ? 'selected' : '' %> > <%= state.name %> </option>
+      <% end %>
+    </select>
+    </td></tr>
+
+   <tr><td><label for="pipeline_description">Description</label></td><td>
+    <%= text_field 'pipeline', 'description' %></td></tr>
+
+    <tr><td><label for="pipeline_pipe_root">Pipeline Root</label></td><td>
+    <%= text_field 'pipeline', 'pipe_root' %></td></tr>
+
+    <tr><td><label for="pipeline_data_root">Data Root</label></td><td>
+    <%= text_field 'pipeline', 'data_root' %></td></tr>
+
+    <tr><td><label for="pipeline_software_root">Software Root</label></td><td>
+    <%= text_field 'pipeline', 'software_root' %></td></tr>
+
+    <tr><td><label for="pipeline_configuration_root">Configuration Root</label></td><td>
+ <%= text_field 'pipeline', 'configuration_root' %></td></tr>
+ </table>
+ 
+</fieldset>

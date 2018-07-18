@@ -1,0 +1,54 @@
+<h1>Data products for <%= h(@target.name) %> target, <%= h(@configuration.name) %>
+</h1>
+<hr />
+<%= link_to 'New data product', new_target_configuration_data_product_path(@target,@configuration) %>
+<%= link_to @target.name, target_path(@target) %>
+
+<% if @data.empty? %>
+ <p>There are no data products</p>
+<% else %>
+
+   <script type="text/javascript" >
+    
+    $(document).ready(function() 
+        { 
+        $("#data_product_info").tablesorter(); 
+        } 
+    ); 
+   </script>
+
+
+
+
+ <table border="1" id="data_product_info" class='tablesorter'>
+    <thead>
+    <tr>
+      <th>Action </th>
+      <th>Id </th>
+      <th>Path </th>
+      <th>Type </th>
+      <th>Filter </th>
+      <th>Suffix</th>
+      <th>Source</th>
+      <th>Group</th>
+    </tr>
+    </thead>
+   </tr>
+ <% @data.each do |d| %>
+   <tr>
+     <td style="vertical-align:middle">
+      <%= form_tag "/targets/#{@target.id}/configurations/#{@configuration.id}/data_products/#{d.id}", :method => 'delete' do %>
+        <button type="submit" onclick="return confirm('Are you sure you want to DELETE data_product <%= d.id %>?')" >Delete</button>
+      <% end %>
+    </td>
+     <td style="vertical-align:middle"><%= link_to d.id, "/targets/#{@target.id}/configurations/#{@configuration.id}/data_products/#{d.id}" %></td>
+     <td style="vertical-align:middle"><%= d.relativepath %></td>
+     <td style="vertical-align:middle"><%= d.data_type %></td>
+     <td style="vertical-align:middle"><%= d.filtername %></td>
+     <td style="vertical-align:middle"><%= d.suffix %></td>
+     <td style="vertical-align:middle"><%= d.data_source %></td>
+     <td style="vertical-align:middle"><%= d.group %></td>
+   </tr>
+ <% end %>
+ </table>
+<% end %>

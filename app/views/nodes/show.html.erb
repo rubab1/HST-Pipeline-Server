@@ -1,0 +1,38 @@
+<h1>Node #<%= h(@node.id) %> attached to Pipeline <%= (@pipeline.nil?) ? '' : (h(@pipeline.id)+' '+h(@pipeline.name)) %> </h1>
+
+ <%= (@pipeline.nil?) ? '<b>Pipeline: Freepool</b>' : (link_to 'Pipeline',  pipeline_path(@pipeline)) %> | 
+ <%= link_to 'jobs',  node_jobs_path(@node) %>
+
+<% if ((@node.is_updateable) && (!@pipeline.nil?)) %>
+  <%= form_tag "/nodes/refresh/#{@node.id}", :method => :get do %>
+    <button type="submit" onclick="return confirm('Are you sure you want to Refesh Node <%= @node.id %>?')" >Refresh</button>
+  <% end %>
+<% end %>
+
+  <%= form_tag "/nodes/destroy/#{@node.id}", :method => :get do %>
+    <button type="submit" onclick="return confirm('Are you sure you want to DELETE Node <%= @node.id %>?')" >DELETE</button>
+  <% end %>
+
+
+ <table border="0">
+   <tr><td><label for="node_name">Name:</label></td><td>
+       <%= @node.name %></td></tr>
+
+   <tr><td><label for="node_region">Region:</label></td><td>
+       <%= @node.region %></td></tr>
+
+   <tr><td><label for="node_agent">Agent:</label></td><td>
+       <%= @node.agent %></td></tr>
+
+   <tr><td><label for="node_pipeline">Pipeline:</label></td><td>
+       <%= (@pipeline.nil?) ? '<b>Freepool</b>' : (h(@pipeline.name)) %></td></tr>
+
+   <tr><td><label for="node_created">Created:</label></td><td>
+       <%= @node.created_at %></td></tr>
+   <tr><td><label for="node_debug">Debug:</label></td><td>
+      <pre>
+       <%= CGI.escapeHTML(sanitize @node.inspect) %></td></tr>
+      </pre>
+ </table>
+
+

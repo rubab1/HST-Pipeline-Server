@@ -1,0 +1,60 @@
+<h1>Job #<%= h(@job.id) %>, <%= h(@job.created_at) %><br/>
+  from Task #<%= h(@task.id) %> <%= h(@task.name) %> </h1>
+
+<%= link_to 'Edit',  edit_task_job_path(@task, @job) %>
+ <%= link_to 'Jobs',  task_jobs_path(@task) %>
+ <%= link_to 'New Event',  new_job_event_path(@job) %>
+
+ <table border="0">
+   <tr><td><label for="task_name">Task:</label></td><td>
+       <%= link_to @task.name, task_path(@task) %></td></tr>
+
+   <tr><td><label for="target_name">Target:</label></td><td>
+       <%= link_to @target.name, target_path(@target.id) %></td></tr>
+
+   <tr><td><label for="configuration_name">Configuration:</label></td><td>
+       <%= link_to @configuration.name, target_configuration_path(@target, @configuration) %></td></tr>
+
+   <tr><td><label for="node_name">Node:</label></td><td>
+       <%= link_to("#{@node.name} : #{@node.id}", node_path(@node)) unless @node.nil? %></td></tr>
+
+   <tr><td><label for="job_id">ID:</label></td><td>
+      <%= @job.id %></td></tr>
+
+   <tr><td><label for="job_created">Created:</label></td><td>
+      <%= @job.created_at %></td></tr>
+
+  <tr><td><label for="job_state">State:</label></td><td>
+      <%= @job.state %></td></tr>
+
+  <tr><td><label for="job_updated">Last update:</label></td><td>
+      <%= @job.updated_at %></td></tr>
+
+   <tr><td><label for="intial_event">Parent Event:</label></td><td>
+       <%= link_to("#{@job.event.name} : #{@job.id}", event_path(@job.event)) unless @job.event.nil? %>
+       <%= link_to 'fire', fire_event_path(@job.event) unless @job.event.nil?  %> </td>
+       </td></tr>
+
+  <tr><td><label for="job_events">Child Events:</label></td><td>
+      <table>
+        <% @job.events.each do |e| %>
+        <tr>
+          <td><%= link_to e.id, job_event_path(@job, e) %> <%= e.name %> <%= e.value %> </td>
+          <td><%= link_to 'fire', fire_event_path(e) %> </td>
+        </tr>
+        <% end %>
+      </table>
+    </td></tr>
+
+  <tr><td><label for="job_options">Options:</label></td><td>
+      <table>
+        <% @job.options.each do |o| %>
+        <tr>
+          <td><%= link_to o.id, job_options_path(@job, o) %> <%= o.name %> <%= o.value %> </td>
+          <td></td>
+        </tr>
+        <% end %>
+      </table>
+    </td></tr>
+
+</table>

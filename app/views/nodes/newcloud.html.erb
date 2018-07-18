@@ -1,0 +1,32 @@
+<%#
+# sets up for creating a new cloud of nodes associated with this pipeline
+%>
+
+<h1>Create a cloud of available nodes for
+    pipeline #<%= h(@pipeline.id) %>, <%= h(@pipeline.name) %></h1>
+
+<%= form_tag invoke_node_path, :method => :post do %>
+<fieldset>
+ <legend>Start here</legend>
+
+ <table>
+   <tr>
+       <td><label for="node_type">Node Type</label></td>
+       <td><%= select 'node_type', :id, @nodes.map{|c| [c.name,c.id]} %></td>
+       <td><label for="node_count">Number</label></td>
+       <td><%= text_field 'node', 'count' %></td>
+       <td><label for="node_options">Options</label></td>
+       <td><%= text_field 'node', 'options' %></td>
+</tr>
+<tr><td>   <button type="submit">Save</button></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+</tr>
+</table>
+</fieldset>
+
+<% end %>
+

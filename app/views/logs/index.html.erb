@@ -1,0 +1,31 @@
+<h2>Logs</h2>
+<hr />
+<% if @logs.blank? %>
+ <p>There are no logs ???</p>
+<% else %>
+    <script type="text/javascript" >
+    
+    $(document).ready(function() 
+        { 
+        $("#logs").tablesorter(); 
+        } 
+    ); 
+    
+    </script>
+   
+  <table border=1 id='logs' class='tablesorter'>
+    <thead>
+    <tr>
+    <th>Name </th>
+    <th>Logfile </th>
+    </tr>
+    </thead>
+
+ <% @logs.each do |name,file| %>
+   <tr>
+     <td><%= link_to h(name), "/logs/show/#{name}" %></td>
+     <td><%= link_to h(file), "/logs/show/#{name}" %></td>
+   </tr>
+ <% end %>
+ </table>
+<% end %>

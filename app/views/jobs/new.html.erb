@@ -1,0 +1,26 @@
+<h1>Start a job for Task #<%= h(@task.id) %>, <%= h(@task.name) %></h1>
+
+<%= form_tag startjob_task_path(@task), :method => :post do %>
+<fieldset>
+ <legend>Start here</legend>
+
+ <table>
+   <tr>
+       <td><label for="job_target">Target</label></td>
+       <td><%= select 'target', :id, @targets.map{|t| [t.name,t.id]} %></td>
+       <td><label for="job_configuration">Configuration</label></td>
+       <td><%= select 'configuration', :id, @configurations.map{|c| [c.name,c.id]} %></td>
+       <td><label for="job_options">Options</label></td>
+       <td><%= text_field 'job', 'options' %></td>
+</tr>
+<tr><td>   <button type="submit">Save</button></td>
+    <td>   <%= link_to 'Cancel', task_jobs_path %> </td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+</tr>
+</table>
+</fieldset>
+
+<% end %>

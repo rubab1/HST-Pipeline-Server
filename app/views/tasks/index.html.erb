@@ -1,0 +1,33 @@
+<h1>Cloud Tasks for Pipeline  #<%= h(@pipeline.id) %>, <%= h(@pipeline.name) %>
+</h1>
+<hr />
+<%= link_to 'New task', new_pipeline_task_path %>
+<%= link_to 'All Pipelines', pipelines_path %>
+
+<% if @tasks.empty? %>
+ <p>There are no tasks</p>
+<% else %>
+ <table border="0">
+   <tr>
+     <td>id</td>
+     <td>Name</td>
+     <td>Flags</td>
+     <td>
+     </td>
+   </tr>
+ <% @tasks.each do |task| %>
+   <tr>
+     <td style="vertical-align:middle"><%= task.id %></td>
+     <td style="vertical-align:middle"><%= link_to h(task.name), pipeline_task_path(@pipeline, task) %></td>
+     <td style="vertical-align:middle"><%= task.flags %></td>
+     <td style="vertical-align:middle"><br />
+         <%= form_tag pipeline_task_path(@pipeline,task), :method => :delete do %>
+         <%= link_to 'Jobs',  task_jobs_path(task) %>
+         <%= link_to 'Edit',   edit_pipeline_task_path(@pipeline, task) %>
+         <button type="submit" onclick="return confirm('Are you sure you want to delete?')" >Delete</button>
+         <% end %>
+     </td>
+   </tr>
+ <% end %>
+ </table>
+<% end %>

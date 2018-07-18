@@ -1,0 +1,36 @@
+<h1>Event masks for Pipeline Task  #<%= h(@task.id) %>, <%= h(@task.name) %>
+</h1>
+<hr />
+<%= link_to 'New mask', new_task_mask_path %>
+<%= link_to 'All Tasks', pipeline_tasks_path(@task.pipeline) %>
+
+<% if @masks.empty? %>
+ <p>There are no masks</p>
+<% else %>
+ <table border="0">
+   <tr>
+     <td>id</td>
+     <td>Name</td>
+     <td>Source</td>
+     <td>Value</td>
+     <td>Flags</td>
+     <td>
+     </td>
+   </tr>
+ <% @masks.each do |mask| %>
+   <tr>
+     <td style="vertical-align:middle"><%= mask.id %></td>
+     <td style="vertical-align:middle"><%= link_to h(mask.name), task_mask_path(@task, mask) %></td>
+     <td style="vertical-align:middle"><%= mask.source %></td>
+     <td style="vertical-align:middle"><%= mask.value %></td>
+     <td style="vertical-align:middle"><%= mask.optionflags %></td>
+     <td style="vertical-align:middle"><br />
+         <%= form_tag task_mask_path(@task,mask), :method => :delete do %>
+         <%= link_to 'Edit',   edit_task_mask_path(@task, mask) %>
+         <button type="submit" onclick="return confirm('Are you sure you want to delete?')" >Delete</button>
+         <% end %>
+     </td>
+   </tr>
+ <% end %>
+ </table>
+<% end %>

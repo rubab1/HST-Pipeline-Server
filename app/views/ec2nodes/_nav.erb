@@ -1,0 +1,13 @@
+<%= link_to "Pipelines" , "/" %>  |
+<%= link_to "Users" , "/users/" %>  |
+<%= link_to "Nodes" , "/nodes/" %>  |
+<%= link_to "Jobs" , "/jobs/" %>  |
+<%= link_to "Your EC2 Nodes" , "/ec2nodes/get_status_for_user/#{@authn_user.id}" %>  |
+<%= link_to "Your Server Nodes", "/server_nodes/get_status_for_server/#{@authn_user.id}" %> |
+<%= link_to "EC2 Users" , "/ec2nodes/get_users" %>  |
+<%= link_to "EC2 AMIs" , "/ec2nodes/get_registered_amis" %>  |
+<%= link_to "Node Types" , "/ec2nodes/get_amis" %>  |
+<%= link_to "Launch EC2 Nodes" , "/ec2nodes/launch_instances_for_user/#{@authn_user.id}" %> |
+<%= link_to "Launch Server Nodes" , "/server_nodes/launch_server/#{@authn_user.id}" %> |
+<%= (@authn_user.nil?) ? '' : link_to("Logs" , "/logs/show/rpipeline") %>
+

@@ -1,0 +1,24 @@
+<h1>Start nodes for Pipeline #<%= h(@pipeline.id) %>, <%= h(@pipeline.name) %></h1>
+
+<%= form_tag invoke_node_path(@node), :method => :post do %>
+<fieldset>
+ <legend>Start here</legend>
+
+ <table>
+   <tr>
+       <td><label for="node_type">Type</label></td>
+       <td><%= select 'node_type', :id, @types.map{|t| [t.name,t.id]} %></td>
+       <td><label for="node_options">Options</label></td>
+       <td><%= text_field 'node', 'options' %></td>
+</tr>
+<tr><td>   <button type="submit">Invoke</button></td>
+    <td>   <%= link_to 'Cancel', pipeline_path(@pipeline.id)%> </td>
+      <td></td>
+      <td></td>
+      <td></td>
+      <td></td>
+</tr>
+</table>
+</fieldset>
+
+<% end %>

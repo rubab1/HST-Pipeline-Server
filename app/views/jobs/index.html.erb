@@ -1,0 +1,37 @@
+<h2>Jobs</h2>
+<hr />
+<% if @jobs.blank? %>
+ <p>There are no jobs</p>
+<% else %>
+    <script type="text/javascript" >
+    
+    $(document).ready(function() 
+        { 
+        $("#job_info").tablesorter(); 
+        } 
+    ); 
+    
+    </script>
+   
+  <table border=1 id='job_info' class='tablesorter'>
+    <thead>
+    <tr>
+    <th>ID </th>
+    <th>State </th>
+    <th>Task ID </th>
+    <th>Node ID </th>
+    <th>Event ID </th>
+    </tr>
+    </thead>
+
+ <% @jobs.each do |job| %>
+   <tr>
+     <td><%= job.id %></td>
+     <td><%= job.state.inspect %></td>
+     <td><%= job.task_id %></td>
+     <td><%= job.node_id %></td>
+     <td><%= job.event_id %></td>
+   </tr>
+ <% end %>
+ </table>
+<% end %>

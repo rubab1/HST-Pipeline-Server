@@ -1,0 +1,10 @@
+<h1>New Configuration</h1>
+
+<%= form_tag target_configurations_path do %>
+ <%= render :partial => 'configurations/form' %>
+
+ <fieldset>
+   <button type="submit">Save</button>
+   <%= link_to 'Cancel', target_configurations_path %>
+ </fieldset>
+<% end %>

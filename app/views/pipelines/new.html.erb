@@ -1,0 +1,10 @@
+<h1>New Pipeline </h1>
+
+<%= form_tag pipelines_path do %>
+ <%= render :partial => 'pipelines/form' %>
+
+ <fieldset>
+   <button type="submit">Save</button>
+   <%= link_to 'Cancel', pipelines_path %>
+ </fieldset>
+<% end %>

@@ -1,0 +1,32 @@
+<h1>Cloud Targets for Pipeline  #<%= h(@pipeline.id) %>, <%= h(@pipeline.name) %>
+</h1>
+<hr />
+<%= link_to 'New target', new_pipeline_target_path %>
+<%= link_to 'All Pipelines', pipelines_path %>
+
+<% if @targets.empty? %>
+ <p>There are no targets</p>
+<% else %>
+ <table border="0">
+   <tr>
+     <td>id</td>
+     <td>Name</td>
+     <td></td>
+     <td>
+     </td>
+   </tr>
+ <% @targets.each do |target| %>
+   <tr>
+     <td style="vertical-align:middle"><%= target.id %></td>
+     <td style="vertical-align:middle"><%= link_to h(target.name), pipeline_target_path(@pipeline, target) %></td>
+     <td style="vertical-align:middle"><%= link_to 'Configurations',  target_configurations_path(target) %></td>
+    <td style="vertical-align:middle"><br />
+         <%= form_tag pipeline_target_path(@pipeline,target), :method => :delete do %>
+         <%= link_to 'Edit',   edit_pipeline_target_path(@pipeline, target) %>
+         <button type="submit" onclick="return confirm('Are you sure you want to delete?')" >Delete</button>
+         <% end %>
+     </td>
+   </tr>
+ <% end %>
+ </table>
+<% end %>

@@ -1,0 +1,51 @@
+<h2>Nodes</h2>
+<hr />
+<% if @nodes.blank? %>
+ <p>There are no nodes</p>
+<% else %>
+    <script type="text/javascript" >
+    
+    $(document).ready(function() 
+        { 
+        $("#node_info").tablesorter(); 
+        } 
+    ); 
+    
+    </script>
+   
+  <table border=1 id='node_info' class='tablesorter'>
+    <thead>
+    <tr>
+    <th>User </th>
+    <th>Pipeline ID </th>
+    <th>ID </th>
+    <th>State </th>
+    <th>Type </th>
+    <th>EC2 Instance ID </th>
+    <th>Num Jobs </th>
+    </tr>
+    </thead>
+
+<% old_user = nil; %>
+<% old_user_id = nil; %>
+ <% @nodes.each do |node| %>
+     <% 
+     if (node.user_id != old_user_id)
+      old_user = User.find_by_id(node.user_id)
+      old_user_id = old_user.id rescue next
+     end
+     next if old_user.nil?
+     %>
+   <tr>
+     <td>
+     <%= link_to h(old_user.name), "/ec2nodes/get_status_for_user/#{old_user_id}" %></td>
+     <td><%= (node.pipeline_id.to_i < 1) ? '0' : (link_to h(node.pipeline_id), pipeline_path(node.pipeline_id)+'?'+{ :showTree => 1 }.to_query) %></td>
+     <td><%= (link_to h(node.id), "/pipelines/#{node.pipeline_id}/nodes/#{node.id}") %></td>
+     <td><%= (node.state_id.nil?) ? 'NIL' : @node_states[node.state_id] %></td>
+     <td><%= (node.type_id.nil?) ? "NIL (#{node.name.inspect})" : ((@node_types[node.type_id].nil?) ? "( #{node.type_id} )" : @node_types[node.type_id]) %></td>
+     <td><%= link_to h(node.ec2_instance_id), "/ec2nodes/get_status_for_user/#{old_user_id}" %></td>
+     <td><%= node.num_jobs %></td>
+   </tr>
+ <% end %>
+ </table>
+<% end %>

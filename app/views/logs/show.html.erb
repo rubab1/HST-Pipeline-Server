@@ -1,0 +1,23 @@
+<h2>Logs</h2>
+<hr />
+<% if @log_name.blank? %>
+ <p>Missing log_name ???</p>
+<% else %>
+  <form method="POST">
+  <table border=1 class="tablesorter">
+  <tr> <td><b>Num Last Lines:</b></td> <td><input type="text" name="num_last_lines" value="<%= @num_last_lines %>"></td> </tr>
+  <tr> <td><b>Filter:</b>( | seperated )</td> <td><input type="text" name="filters" value="<%= @filters_string %>"></td> </tr>
+  <tr> <td><b>Update:</b></td> <td> <input type="submit" name="Filter" value="Filter"> </td> </tr>
+  </table>
+  </form>
+  <table border=1 id='log' class='tablesorter'>
+    <thead>
+    <tr>
+    <th><center><%= @log_name %></center></th>
+    </tr>
+    </thead>
+   <tr>
+     <td><pre><%= CGI.escapeHTML(@data) %></pre></td>
+   </tr>
+ </table>
+<% end %>

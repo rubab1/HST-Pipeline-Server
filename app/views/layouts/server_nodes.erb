@@ -1,0 +1,30 @@
+<html>
+<head>
+<title>
+<%= @title %>
+</title>
+<%= stylesheet_link_tag :astro %>
+<script type="text/javascript" src="/javascripts/jquery-1.4.2.min.js"></script> 
+<script type="text/javascript" src="/javascripts/jquery.tablesorter.min.js"></script> 
+</head>
+<body>
+<% if @mode != 'iframe' %>
+  <h1><%= @header %> </h1>
+  <div class='nav'> <%= render :partial=>'server_nodes/nav'  %> </div>
+  <hr />
+<% end %>
+<% if !flash[:error].blank? %>
+  <div class='error'><%= CGI.escapeHTML flash[:error] %> </div>
+<% end %>
+<% if !flash[:notice].blank? %>
+  <div class='notice'><%= CGI.escapeHTML flash[:notice] %> </div>
+<% end %>
+<% flash.discard %>
+
+<div class='content'>
+<%= yield %>
+</div>
+
+<div class='footer'> <%= @footer %> </div>
+</body>
+</html>

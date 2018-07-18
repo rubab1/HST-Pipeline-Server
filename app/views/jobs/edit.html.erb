@@ -1,0 +1,17 @@
+<h1>Job #<%= h(@job.id) %>, <%= h(@job.state) %>, from Task <%= h(@job.task.name) %> </h1>
+
+<%= form_for @job, :url => { :action => "update"}, :html => { :method => :put} do |f| %>
+
+ <table>
+   <tr><td>State</td><td><%= f.text_field :state %></td></tr>
+   <tr><td>Options</td><td><%= f.text_field :options %></td></tr>
+   <tr><td>Node</td><td>
+       <%= f.select(:node_id, @nodes.collect{|n| [n.name, n.id ]}, {:prompt => "Select"} ) %>
+   </td></tr>
+ </table>
+
+ <fieldset>
+   <%= submit_tag 'Update' %>
+   <%= link_to 'Cancel', job_path(@job) %>
+ </fieldset>
+<% end %>

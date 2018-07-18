@@ -1,0 +1,46 @@
+
+<h1>Event #<%= h(@event.id) %>, created by Job
+   #<%= h(@job.id) %> <%= h(@job.task.name) %> </h1>
+
+
+ <table border="0">
+   <tr><td><label for="event_id">ID:</label></td><td>
+      <%= @event.id %></td></tr>
+
+   <tr><td><label for="event_name">Event:</label></td><td>
+       <%= @event.name %></td></tr>
+
+   <tr><td><label for="event_value">Value:</label></td><td>
+       <%= @event.value %></td></tr>
+
+   <tr><td><label for="event_args">Args:</label></td><td>
+       <%= @event.jargs %></td></tr>
+
+   <tr><td><label for="event_job">From job:</label></td><td>
+        <a href="/jobs/<%= @job.id %>/?pipeline_id=<%= @job.task.pipeline.id %>">
+        <%= @job.id %>  <%= @job.task.name %> <%= @job.state %>
+        </a>
+       </td></tr>
+
+
+  <tr><td><label for="event_jobs">Spawned:</label></td><td>
+      <table>
+        <% @jobs.each do |j| %>
+        <tr><td>
+        <a href="/jobs/<%= j.id %>/?pipeline_id=<%= @job.task.pipeline.id %>">
+        <%= j.id %>  <%= j.task.name %> <%= j.state %> 
+        </a>
+        </td></tr>
+        <% end %>
+      </table>
+    </td></tr>
+  <tr><td><label for="event_options">Options:</label></td><td>
+      <% if (!@options.nil? ) %>
+      <table>
+          <% @options.each do |op| %>
+          <tr><td><%= op.id %>  <%= op.name %> <%= op.value %> </td></tr>
+          <% end %>
+      </table>
+    <% end %>
+    </td></tr>
+</table>

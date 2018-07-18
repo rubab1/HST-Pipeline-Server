@@ -1,0 +1,57 @@
+<%#
+# To change this template, choose Tools | Templates
+# and open the template in the editor.
+%>
+
+<h1>Data Product <%= @dataproduct.id %></h1>
+
+<hr/>
+
+
+<%= form_tag target_configuration_dataproducts_path(@target, @conf), :method => :post do %>
+
+  <fieldset>
+    <legend> legend </legend>
+
+    <table>
+      <tr>
+        <td><label for="relativepath">Relative path</label></td><td><%= text_field 'dataproduct', 'relativepath' %></td>
+      </tr><tr>
+        <td><label for="filename">File name </label></td><td><%= text_field 'dataproduct', 'filename' %></td>
+      </tr><tr>
+        <td><label for="data_type">Type (image|table|datafile|other) </label></td><td><%= text_field 'dataproduct', 'data_type' %></td>
+      </tr><tr>
+        <td><label for="subtype"> Subtype (science|drizzle) </label></td><td><%= text_field 'dataproduct', 'subtype' %></td>
+      </tr><tr>
+        <td><label for="group">Group(raw|prod|log) </label></td><td><%= text_field 'dataproduct', 'group' %></td>
+      </tr><tr>
+        <td><label for="ra">RA </label></td><td><%= text_field 'dataproduct', 'ra' %></td>
+      </tr><tr>
+        <td><label for="dec">DEC </label></td><td><%= text_field 'dataproduct', 'dec' %></td>
+      </tr><tr>
+        <td><label for="pointing_angle">PA </label></td><td><%= text_field 'dataproduct', 'pointing_angle' %></td>
+      </tr><tr>
+        <td><label for="s3bucket">Bucket </label></td><td><%= text_field 'dataproduct', 's3bucket' %></td>
+      </tr><tr>
+        <td><label for="s3objectid">S3ObjId </label></td><td><%= text_field 'dataproduct', 's3objectid' %></td>
+      </tr><tr>
+        <td><label for="s3region">Region </label></td><td><%= text_field 'dataproduct', 's3region' %></td>
+      </tr>
+
+      <tr><td><label for="dataproduct_options">Parameters:</label></td><td>
+      <table>
+        <% @dataproduct.options.each do |p| %>
+        <tr><td><%= p.id %></td><td><%= p.name %></td><td>:</td><td><%= p.value %></td></tr>
+        <% end %>
+      </table>
+      </td></tr>
+
+
+      <tr>
+        <td>   <%= link_to 'Data Products Index', "/targets/#{@target.id}/configurations/#{@conf.id}/dataproducts" %></td>
+        <td></td>
+      </tr>
+    </table>
+  </fieldset>
+
+<% end %>

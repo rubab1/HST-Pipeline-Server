@@ -1,0 +1,22 @@
+<h1>Start an event for Job #<%= h(@job.id) %>, <%= h(@job.task.name) %></h1>
+
+<%= form_tag job_events_path(@job), :method => :post do %>
+<fieldset>
+ <legend>Start here</legend>
+
+ <table>
+   <tr>
+       <td><label for="event_name">Event name</label></td>
+       <td><%= text_field 'event', 'name' %></td>
+       <td><label for="event_value">Value</label></td>
+       <td><%= text_field 'event', 'value' %></td>
+</tr>
+<tr><td>   <button type="submit">Save</button></td>
+      <td></td>
+      <td></td>
+      <td></td>
+</tr>
+</table>
+</fieldset>
+
+<% end %>

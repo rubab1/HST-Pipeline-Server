@@ -1,0 +1,47 @@
+<% if @users.empty? %>
+ <p>There are no users ???</p>
+<% else %>
+
+    <script type="text/javascript" >
+    
+    $(document).ready(function() 
+        { 
+        $("#user_info").tablesorter(); 
+        } 
+    ); 
+    
+    </script>
+
+  <table border=1 id='user_info' class='tablesorter'>
+    <thead>
+    <tr>
+    <th>User Name </th>
+    <th>View Instances</th>
+    <th>Launch Instances</th>
+    </tr>
+    </thead>
+
+ <% @users.each do |user| %>
+   <tr>
+     <td><%= user.name %></td>
+<%
+    has_ec2_creds = false
+    begin
+      creds = ec2_get_crypto_assets_for_user user.name
+      has_ec2_creds = true
+    rescue Exception => e
+    end
+-%>
+
+     <td><%= (has_ec2_creds) ? link_to("View ", "/ec2nodes/get_status_for_user/#{user.id}") : 'No Credentials' %></td>
+     <td>
+     <% if @authn_user.is_admin || @authn_user.id == user.id %>
+      <%=  (has_ec2_creds) ? link_to("Launch ", "/ec2nodes/launch_instances_for_user/#{user.id}") : 'No Credentials'-%>
+     <% else %>
+     -
+     <% end %>
+     </td>
+   </tr>
+ <% end %>
+ </table>
+<% end %>

@@ -1,0 +1,31 @@
+<h1>Target #<%= h(@target.id) %>, <%= h(@target.name) %><br/>
+  from Pipeline #<%= h(@pipeline.id) %> <%= h(@pipeline.name) %> </h1>
+
+<%= form_tag pipeline_target_path(@pipeline,@target), :method => :delete do %>
+ <%= link_to 'Edit',  edit_pipeline_target_path(@pipeline, @target) %>
+ <%= link_to 'New configuration',  new_target_configuration_path(@target) %>
+ <%= link_to 'Start Job',  :action => "newjob", :id=>@target.id %>
+ <button type="submit" onclick="return confirm('Are you sure you want to delete?')" >Delete</button>
+<% end %>
+
+ <table border="0">
+   <tr><td><label for="target_pipeline">Pipeline:</label></td><td>
+       <%= link_to "#{@pipeline.id}",  pipeline_path(@pipeline) %></td></tr>
+
+   <tr><td><label for="target_name">Name:</label></td><td>
+       <%= @target.name %></td></tr>
+
+   <tr><td><label for="target_relativepath">Relative Path:</label></td><td>
+       <%= @target.relativepath %></td></tr>
+
+   <tr><td><label for="target_configurations">Configurations:</label></td><td>
+      <table>
+        <% @target.configurations.each do |c| %>
+        <tr><td><%= link_to c.id, target_configuration_path(@target,c ) %> <%= c.name %></td>
+          <td><%= link_to "data", target_configuration_data_products_path(@target,c) %></td>
+        </tr>
+        <% end %>
+      </table>
+    </td></tr>
+
+ </table>
